@@ -16,7 +16,7 @@ class search(commands.Command):
         if event.evt == 'key' and event.data.isnumeric():
             choice = int(event.data)
             if 1 <= choice <= r.maxmatches and choice <= len(r._curmatches):
-                r.insert_match(r._curmatches[choice-1])
+                r.insert_match(r._curmatches[choice - 1])
                 return
         r.error('invalid choice')
 
