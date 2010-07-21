@@ -11,12 +11,12 @@ class MyReader(SearchingReader):
         self.enumerate = True
 
     def get_matches(self):
-        pos, word = self._current_word()
+        pos, word = self.current_word()
         match = lambda option: option.startswith(word)
         return filter(match, self.options) if word else []
 
     def insert_match(self, match):
-        pos, word = self._current_word()
+        pos, word = self.current_word()
         if match.startswith(word):
             self.insert(match[len(word):])
         else:
