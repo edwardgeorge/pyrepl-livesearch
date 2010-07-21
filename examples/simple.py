@@ -20,10 +20,10 @@ class MyReader(SearchingReader):
         if match.startswith(word):
             self.insert(match[len(word):])
         else:
-            newbuf = self.buffer[:pos] + match +\
-                self.buffer[pos + len(match):]
-            self.buffer = newbuf
-            self.pos = len(newbuf)
+            buffer = self.buffer
+            buffer[pos:pos + len(word)] = map(None, match)
+            self.pos = pos + len(match)
+            self.refresh()
 
 if __name__ == '__main__':
     con = UnixConsole()
