@@ -31,7 +31,7 @@ class SearchingReader(Reader):
         return super(SearchingReader, self).collect_keymap() + (
             (r'\t', search),)
 
-    def _current_word(self):
+    def current_word(self):
         return helpers.current_word(self.get_unicode(), self.pos)
 
     def _insert_screen(self, screen, insert):
