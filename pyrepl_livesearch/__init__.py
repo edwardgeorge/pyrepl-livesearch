@@ -1,4 +1,15 @@
+from pyrepl import commands
 from pyrepl.reader import Reader
+
+
+class search(commands.Command):
+    def do(self):
+        r = self.reader
+        event = r.console.get_event()
+        if event.evt == 'key' and event.data.isnumeric():
+            choice = int(event.data)
+            if 1 <= choice <= r.maxmatches:
+                pass
 
 
 class SearchingReader(Reader):
