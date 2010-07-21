@@ -11,9 +11,19 @@ class MyReader(SearchingReader):
         self.enumerate = True
 
     def get_matches(self):
-        line = self.get_unicode()
-        match = lambda option: option.startswith(line)
-        return filter(match, self.options) if line else []
+        pos, word = self._current_word()
+        match = lambda option: option.startswith(word)
+        return filter(match, self.options) if word else []
+
+    def insert_match(self, match):
+        pos, word = self._current_word()
+        if match.startswith(word):
+            self.insert(match[len(word):])
+        else:
+            newbuf = self.buffer[:pos] + match +\
+                self.buffer[pos + len(match):]
+            self.buffer = newbuf
+            self.pos = len(newbuf)
 
 if __name__ == '__main__':
     con = UnixConsole()

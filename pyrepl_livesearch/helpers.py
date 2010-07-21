@@ -17,3 +17,4 @@ def current_word(buffer, pos):
     for i, j in iterate_words(buffer):
         if i + len(j) == pos:
             return i, j
+    return pos, ''
