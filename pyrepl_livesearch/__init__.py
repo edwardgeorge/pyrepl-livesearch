@@ -11,14 +11,14 @@ class search(commands.Command):
             r.error('no matches')
         elif len(r._curmatches) == 1:
             r.insert_match(r._curmatches[0])
-            return
-        event = r.console.get_event()
-        if event.evt == 'key' and event.data.isnumeric():
-            choice = int(event.data)
-            if 1 <= choice <= r.maxmatches and choice <= len(r._curmatches):
-                r.insert_match(r._curmatches[choice - 1])
-                return
-        r.error('invalid choice')
+        else:
+            event = r.console.get_event()
+            if event.evt == 'key' and event.data.isnumeric():
+                choice = int(event.data)
+                if 1 <= choice <= r.maxmatches and choice <= len(r._curmatches):
+                    r.insert_match(r._curmatches[choice - 1])
+                    return
+            r.error('invalid choice')
 
 
 class SearchingReader(Reader):
