@@ -1,7 +1,10 @@
 from pyrepl import commands
+from pyrepl.completing_reader import CompletingReader
 from pyrepl.reader import Reader
 
 from pyrepl_livesearch import helpers
+
+__all__ = ['SearchingReader']
 
 
 class search(commands.Command):
@@ -9,14 +12,21 @@ class search(commands.Command):
         r = self.reader
         if not r._curmatches:
             r.error('no matches')
+            r.refresh()
         elif len(r._curmatches) == 1:
             r.insert_match(r._curmatches[0])
         else:
+            r.msg = 'enter number'
+            r.dirty = 1
+            r.refresh()
             event = r.console.get_event()
+            r.msg = ''
+            r.dirty = 1
             if event.evt == 'key' and event.data.isnumeric():
                 choice = int(event.data)
                 if 1 <= choice <= r.maxmatches and choice <= len(r._curmatches):
                     r.insert_match(r._curmatches[choice - 1])
+                    r.refresh()
                     return
             r.error('invalid choice')
 
@@ -33,6 +43,9 @@ class SearchingReader(Reader):
 
     def current_word(self):
         return helpers.current_word(self.get_unicode(), self.pos)
+
+    # get_stem implementation from CompletingReader
+    get_stem = CompletingReader.get_stem
 
     def _insert_screen(self, screen, insert):
         ly = self.lxy[1]
