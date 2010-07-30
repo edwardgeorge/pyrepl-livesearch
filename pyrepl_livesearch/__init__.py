@@ -49,6 +49,18 @@ class SearchingReader(Reader):
             return pos, ''
         return start, self.get_unicode()[start:end]
 
+    def replace_buffer(self, content):
+        self.buffer = map(None, content)
+        self.pos = len(buffer)
+        self.refresh()
+
+    def replace_slice(self, start, end, replacement):
+        b = self.buffer
+        b[start:end] = map(None, replacement)
+        if start <= self.pos <= end:
+            self.pos = start + len(replacement)
+        self.refresh()
+
     def _insert_screen(self, screen, insert):
         ly = self.lxy[1]
         screen[ly:ly] = insert
