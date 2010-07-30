@@ -24,7 +24,8 @@ class search(commands.Command):
             r.dirty = 1
             if event.evt == 'key' and event.data.isnumeric():
                 choice = int(event.data)
-                if 1 <= choice <= r.maxmatches and choice <= len(r._curmatches):
+                if 1 <= choice <= r.maxmatches and \
+                        choice <= len(r._curmatches):
                     r.insert_match(r._curmatches[choice - 1])
                     r.refresh()
                     return
