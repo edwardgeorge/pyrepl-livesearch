@@ -11,7 +11,7 @@ class MyReader(SearchingReader):
         self.enumerate = True
 
     def get_matches(self):
-        pos, word = self.current_word()
+        pos, word = self.current_word(False)
         match = lambda option: option.startswith(word)
         return filter(match, self.options) if word else []
 
@@ -20,10 +20,7 @@ class MyReader(SearchingReader):
         if match.startswith(word):
             self.insert(match[len(word):])
         else:
-            buffer = self.buffer
-            buffer[pos:pos + len(word)] = map(None, match)
-            self.pos = pos + len(match)
-            self.refresh()
+            self.replace_slice(pos, pos + len(word), match)
 
 if __name__ == '__main__':
     con = UnixConsole()
