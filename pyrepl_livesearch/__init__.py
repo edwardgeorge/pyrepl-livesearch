@@ -41,8 +41,13 @@ class SearchingReader(Reader):
         return super(SearchingReader, self).collect_keymap() + (
             (r'\t', search),)
 
-    def current_word(self):
-        return helpers.current_word(self.get_unicode(), self.pos)
+    def current_word(self, to_eow=True):
+        pos = self.pos
+        start = self.bow(pos)
+        end = self.eow(start) if to_eow else pos
+        if end < pos:
+            return pos, ''
+        return start, self.get_unicode()[start:end]
 
     # get_stem implementation from CompletingReader
     get_stem = CompletingReader.get_stem
