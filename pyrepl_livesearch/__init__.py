@@ -49,9 +49,6 @@ class SearchingReader(Reader):
             return pos, ''
         return start, self.get_unicode()[start:end]
 
-    # get_stem implementation from CompletingReader
-    get_stem = CompletingReader.get_stem
-
     def _insert_screen(self, screen, insert):
         ly = self.lxy[1]
         screen[ly:ly] = insert
