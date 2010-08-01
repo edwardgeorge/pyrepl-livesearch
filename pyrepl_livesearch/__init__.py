@@ -37,6 +37,7 @@ class SearchingReader(Reader):
         super(SearchingReader, self).__init__(*args, **kwargs)
         self.maxmatches = 5
         self.enumerate = False
+        self.search_enabled = True
 
     def collect_keymap(self):
         return super(SearchingReader, self).collect_keymap() + (
@@ -71,6 +72,8 @@ class SearchingReader(Reader):
 
     def calc_screen(self):
         screen = super(SearchingReader, self).calc_screen()
+        if not self.search_enabled:
+            return screen
         matches = self.get_matches()[:self.maxmatches]
         self._curmatches = matches
         if self.enumerate:
